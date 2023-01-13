@@ -31,6 +31,9 @@ john --wordlist=/usr/share/wordlists/rockyou.txt keyy.txt
 If the hash is already cracked -> 
 john --show filename
 
+* Windows Hashcat Command:
+.\hashcat.exe -m 1700 -a 0 .\test_run\hashes.txt .\wordlists\rockyou.txt
+
 * SQLInjection automatic Command:(It will pull-up all contents from db)
 sqlmap -r r.txt --dump
 
